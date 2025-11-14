@@ -78,5 +78,26 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = "/admin/login/"
-LOGIN_REDIRECT_URL = "/"
+# Authentication URLs
+LOGIN_URL = "dogs:login"
+LOGIN_REDIRECT_URL = "dogs:dashboard"
+LOGOUT_REDIRECT_URL = "dogs:landing_page"
+
+# Messages
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
+
+# Crispy Forms (if installed)
+try:
+    import crispy_forms
+
+    CRISPY_TEMPLATE_PACK = "bootstrap4"
+except ImportError:
+    pass
+
+# Error handling
+handler404 = "dogs.views.handler404"
+handler500 = "dogs.views.handler500"

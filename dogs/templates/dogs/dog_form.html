@@ -1,0 +1,240 @@
+{% extends "dogs/base.html" %}
+
+{% block title %}{{ title }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-subtitle">{% if dog %}Обновите информацию о {{ dog.name }}{% else %}Создайте профиль для новой собаки{% endif %}</p>
+</div>
+
+<div class="row" style="display: grid; grid-template-columns: 1fr 400px; gap: 2rem; max-width: 1000px; margin: 0 auto;">
+    <!-- Form -->
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Информация о собаке</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Basic Information -->
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #667eea;">Основная информация</h4>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                        {{ form.name.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.breed.id_for_label }}">{{ form.breed.label }}</label>
+                                {{ form.breed }}
+                                {% if form.breed.errors %}
+                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                        {{ form.breed.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.age.id_for_label }}">{{ form.age.label }}</label>
+                                {{ form.age }}
+                                {% if form.age.errors %}
+                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                        {{ form.age.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
+                                {{ form.gender }}
+                                {% if form.gender.errors %}
+                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                        {{ form.gender.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.size.id_for_label }}">{{ form.size.label }}</label>
+                                {{ form.size }}
+                                {% if form.size.errors %}
+                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                        {{ form.size.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="{{ form.looking_for.id_for_label }}">{{ form.looking_for.label }}</label>
+                                {{ form.looking_for }}
+                                {% if form.looking_for.errors %}
+                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                        {{ form.looking_for.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Character -->
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #667eea;">Характер</h4>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.temperament.id_for_label }}">{{ form.temperament.label }}</label>
+                            {{ form.temperament }}
+                            {% if form.temperament.help_text %}
+                                <small style="color: #666; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
+                                    {{ form.temperament.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if form.temperament.errors %}
+                                <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    {{ form.temperament.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #667eea;">Описание</h4>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                            {{ form.description }}
+                            {% if form.description.help_text %}
+                                <small style="color: #666; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
+                                    {{ form.description.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if form.description.errors %}
+                                <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    {{ form.description.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Photo -->
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #667eea;">Фото</h4>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label>
+                            {{ form.photo }}
+                            {% if form.photo.help_text %}
+                                <small style="color: #666; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
+                                    {{ form.photo.help_text }}
+                                </small>
+                            {% endif %}
+                            {% if form.photo.errors %}
+                                <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    {{ form.photo.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if dog and dog.photo %}
+                            <div style="margin-top: 1rem;">
+                                <p>Текущее фото:</p>
+                                <img src="{{ dog.photo.url }}" alt="{{ dog.name }}" 
+                                     style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <a href="{% if dog %}{% url 'dogs:dog_detail' dog.pk %}{% else %}{% url 'dogs:dog_list' %}{% endif %}" 
+                           class="btn btn-secondary">Отмена</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check"></i> {{ submit_button }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar with tips -->
+    <div>
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h3 class="card-title">💡 Полезные советы</h3>
+            </div>
+            <div class="card-body">
+                <div style="font-size: 0.9rem; line-height: 1.6;">
+                    <p><strong>Имя:</strong> Выберите кличку, которая отражает характер собаки.</p>
+                    
+                    <p><strong>Порода:</strong> Укажите точную породу для лучших совпадений.</p>
+                    
+                    <p><strong>Возраст:</strong> Это поможет найти подходящих партнеров.</p>
+                    
+                    <p><strong>Характер:</strong> Опишите темперамент: дружелюбный, энергичный, спокойный...</p>
+                    
+                    <p><strong>Описание:</strong> Расскажите о привычках, любимых занятиях и особенностях.</p>
+                    
+                    <p><strong>Фото:</strong> Качественное фото увеличит шансы на успешное знакомство!</p>
+                </div>
+            </div>
+        </div>
+        
+        {% if not dog %}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">🎯 После создания</h3>
+            </div>
+            <div class="card-body">
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
+                    После создания профиля вы сможете:
+                </p>
+                <ul style="font-size: 0.9rem; color: #666; padding-left: 1rem;">
+                    <li>Просматривать профили других собак</li>
+                    <li>Отправлять мэтчи</li>
+                    <li>Добавлять в избранное</li>
+                    <li>Общаться с владельцами</li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+// Image preview functionality
+document.getElementById('id_photo').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            let preview = document.getElementById('image-preview');
+            if (!preview) {
+                preview = document.createElement('div');
+                preview.id = 'image-preview';
+                preview.style.marginTop = '1rem';
+                e.target.parentNode.appendChild(preview);
+            }
+            preview.innerHTML = `
+                <p>Предпросмотр фото:</p>
+                <img src="${e.target.result}" style="width: 200px; height: 200px; object-fit: cover; border-radius: 8px;">
+            `;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+{% endblock %}

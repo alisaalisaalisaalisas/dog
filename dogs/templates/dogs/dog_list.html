@@ -1,0 +1,213 @@
+{% extends "dogs/base.html" %}
+
+{% block title %}Список собак - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Список собак</h1>
+    <p class="page-subtitle">Найдите идеального друга для своей собаки</p>
+</div>
+
+<div class="row" style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
+    <!-- Filters Sidebar -->
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Фильтры поиска</h3>
+            </div>
+            <div class="card-body">
+                <form method="GET">
+                    <div class="form-group">
+                        <label class="form-label" for="id_breed">Порода</label>
+                        {{ search_form.breed }}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label" for="id_age_min">Возраст от</label>
+                            {{ search_form.age_min }}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="id_age_max">до</label>
+                            {{ search_form.age_max }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="id_gender">Пол</label>
+                        {{ search_form.gender }}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="id_size">Размер</label>
+                        {{ search_form.size }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+                        <i class="bi bi-search"></i> Поиск
+                    </button>
+                    
+                    <a href="{% url 'dogs:dog_list' %}" class="btn btn-secondary" style="width: 100%;">
+                        Сбросить фильтры
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dogs Grid -->
+    <div>
+        {% if page_obj.object_list %}
+        <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <span>Найдено: {{ page_obj.paginator.count }} собак</span>
+        </div>
+
+        <div class="dogs-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+            {% for dog in page_obj.object_list %}
+            <div class="card dog-card">
+                <div class="dog-image" style="height: 200px; overflow: hidden; position: relative;">
+                    {% if dog.photo %}
+                        <img src="{{ dog.photo.url }}" alt="{{ dog.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(45deg, #f0f0f0, #e0e0e0);">
+                            <span style="font-size: 4rem; opacity: 0.6;">🐕</span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if user.is_authenticated and dog.owner == user %}
+                        <span style="position: absolute; top: 10px; right: 10px; background: #667eea; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
+                            Моя собака
+                        </span>
+                    {% endif %}
+                </div>
+                
+                <div class="card-body">
+                    <h3 class="card-title">{{ dog.name }}</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <strong>{{ dog.breed }}</strong> • {{ dog.age }} {% if dog.age == 1 %}год{% elif dog.age < 5 %}года{% else %}лет{% endif %}
+                        {% if dog.gender == "M" %}• ♂️{% else %}• ♀️{% endif %}
+                    </div>
+                    
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                        {{ dog.description|truncatechars:120 }}
+                    </p>
+                    
+                    <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                        <span style="background: #e8f4fd; color: #1976d2; padding: 0.25rem 0.5rem; border-radius: 12px; margin-right: 0.5rem;">
+                            {{ dog.get_size_display }}
+                        </span>
+                        <span style="background: #f3e5f5; color: #7b1fa2; padding: 0.25rem 0.5rem; border-radius: 12px;">
+                            {{ dog.get_looking_for_display }}
+                        </span>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.5rem;">
+                        <a href="{% url 'dogs:dog_detail' dog.pk %}" class="btn btn-primary" style="flex: 1; text-align: center;">
+                            Подробнее
+                        </a>
+                        
+                        {% if user.is_authenticated and dog.owner != user %}
+                            <button class="btn btn-success favorite-btn" 
+                                    data-dog-id="{{ dog.pk }}"
+                                    style="padding: 0.75rem;">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div style="margin-top: 2rem; display: flex; justify-content: center;">
+            <nav>
+                <ul class="pagination" style="display: flex; list-style: none; gap: 0.5rem; margin: 0; padding: 0;">
+                    {% if page_obj.has_previous %}
+                        <li>
+                            <a href="?{% if search_form.is_bound %}{{ search_form.urlencode }}{% endif %}&page={{ page_obj.previous_page_number }}" 
+                               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #667eea;">
+                                ← Назад
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li style="padding: 0.5rem 1rem; background: #667eea; color: white; border-radius: 4px;">
+                                {{ num }}
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li>
+                                <a href="?{% if search_form.is_bound %}{{ search_form.urlencode }}{% endif %}&page={{ num }}" 
+                                   style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #667eea;">
+                                    {{ num }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li>
+                            <a href="?{% if search_form.is_bound %}{{ search_form.urlencode }}{% endif %}&page={{ page_obj.next_page_number }}" 
+                               style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #667eea;">
+                                Далее →
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 4rem; color: #666;">
+            <span style="font-size: 4rem; display: block; margin-bottom: 1rem;">🔍</span>
+            <h3>Собак не найдено</h3>
+            <p>Попробуйте изменить параметры поиска</p>
+            <a href="{% url 'dogs:dog_list' %}" class="btn btn-primary">Посмотреть всех собак</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Favorite button functionality
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dogId = this.dataset.dogId;
+            const button = this;
+            
+            button.innerHTML = '<div class="spinner"></div>';
+            button.disabled = true;
+            
+            fetch(`/dogs/${dogId}/favorite/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_favorite) {
+                    button.innerHTML = '<i class="bi bi-heart-fill" style="color: red;"></i>';
+                    showToast(data.message, 'success');
+                } else {
+                    button.innerHTML = '<i class="bi bi-heart"></i>';
+                    showToast(data.message, 'info');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                button.innerHTML = '<i class="bi bi-heart"></i>';
+                showToast('Произошла ошибка', 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

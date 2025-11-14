@@ -1,0 +1,168 @@
+{% extends "dogs/base.html" %}
+
+{% block title %}Мой профиль - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+            <h1 class="page-title">Мой профиль</h1>
+            <p class="page-subtitle">Управление личными данными и настройками</p>
+        </div>
+        <a href="{% url 'dogs:profile_edit' %}" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> Редактировать
+        </a>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; max-width: 1000px;">
+    <!-- Profile Info -->
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Личная информация</h3>
+            </div>
+            <div class="card-body text-center">
+                {% if user_profile.avatar %}
+                    <img src="{{ user_profile.avatar.url }}" alt="{{ user.username }}" 
+                         style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">
+                {% else %}
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                        <span style="font-size: 3rem; opacity: 0.6;">👤</span>
+                    </div>
+                {% endif %}
+                
+                <h3 style="margin-bottom: 0.5rem;">{{ user.username }}</h3>
+                <p style="color: #666; margin-bottom: 1rem;">{{ user.email }}</p>
+                
+                {% if user_profile.bio %}
+                    <p style="color: #666; line-height: 1.6;">{{ user_profile.bio }}</p>
+                {% else %}
+                    <p style="color: #999; font-style: italic;">О себе не указано</p>
+                {% endif %}
+                
+                {% if user_profile.location %}
+                    <p style="color: #666; margin-top: 1rem;">
+                        📍 {{ user_profile.location }}
+                    </p>
+                {% endif %}
+                
+                {% if user_profile.phone %}
+                    <p style="color: #666;">
+                        📞 {{ user_profile.phone }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Account Actions -->
+        <div class="card" style="margin-top: 1.5rem;">
+            <div class="card-header">
+                <h3 class="card-title">Управление аккаунтом</h3>
+            </div>
+            <div class="card-body">
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="{% url 'dogs:change_password' %}" class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none;">
+                        🔒 Изменить пароль
+                    </a>
+                    <a href="{% url 'dogs:favorites' %}" class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none;">
+                        ❤️ Избранное ({{ total_favorites }})
+                    </a>
+                    <a href="{% url 'dogs:matches' %}" class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none;">
+                        💕 Мэтчи ({{ total_matches }})
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Danger Zone -->
+        <div class="card" style="margin-top: 1.5rem; border: 1px solid #dc3545;">
+            <div class="card-header" style="background: #fff5f5;">
+                <h3 class="card-title" style="color: #dc3545;">⚠️ Опасная зона</h3>
+            </div>
+            <div class="card-body">
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+                    Эти действия необратимы. Пожалуйста, будьте осторожны.
+                </p>
+                <a href="{% url 'dogs:delete_account' %}" class="btn btn-danger" style="width: 100%; text-align: center; text-decoration: none;">
+                    🗑️ Удалить аккаунт
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Statistics -->
+    <div>
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h3 class="card-title">Статистика</h3>
+            </div>
+            <div class="card-body">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                    <div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 0.5rem;">{{ user_dogs|length }}</div>
+                        <div style="color: #666; font-size: 0.9rem;">Собак</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;">{{ total_matches }}</div>
+                        <div style="color: #666; font-size: 0.9rem;">Мэтчей</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;">{{ total_favorites }}</div>
+                        <div style="color: #666; font-size: 0.9rem;">Избранное</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dogs List -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Мои собаки ({{ user_dogs|length }})</h3>
+            </div>
+            <div class="card-body">
+                {% if user_dogs %}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                        {% for dog in user_dogs %}
+                        <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                            <div style="height: 120px; overflow: hidden;">
+                                {% if dog.photo %}
+                                    <img src="{{ dog.photo.url }}" alt="{{ dog.name }}" 
+                                         style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f0f0f0;">
+                                        <span style="font-size: 2rem; opacity: 0.6;">🐕</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div style="padding: 1rem;">
+                                <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">{{ dog.name }}</h4>
+                                <p style="margin: 0; color: #666; font-size: 0.875rem;">{{ dog.breed }} • {{ dog.age }} лет</p>
+                                <a href="{% url 'dogs:dog_detail' dog.pk %}" style="color: #667eea; font-size: 0.875rem; text-decoration: none;">
+                                    Подробнее →
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <a href="{% url 'dogs:dog_create' %}" class="btn btn-primary">
+                            <i class="bi bi-plus"></i> Добавить собаку
+                        </a>
+                    </div>
+                {% else %}
+                    <div style="text-align: center; padding: 2rem; color: #666;">
+                        <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">🐕</span>
+                        <h4 style="margin-bottom: 1rem;">У вас пока нет собак</h4>
+                        <p style="margin-bottom: 1.5rem;">Создайте первый профиль для вашей собаки</p>
+                        <a href="{% url 'dogs:dog_create' %}" class="btn btn-primary">
+                            <i class="bi bi-plus"></i> Добавить первую собаку
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

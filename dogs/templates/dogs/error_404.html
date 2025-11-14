@@ -1,0 +1,165 @@
+{% extends "dogs/base.html" %}
+
+{% block title %}Страница не найдена - 404{% endblock %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card" style="border: none; box-shadow: none;">
+                <div class="card-body py-5">
+                    <!-- Large 404 number -->
+                    <h1 style="font-size: 8rem; font-weight: 800; color: #667eea; line-height: 1;">
+                        404
+                    </h1>
+                    
+                    <!-- Error message -->
+                    <h2 class="mb-4" style="color: #1a202c;">
+                        Ой! Страница не найдена
+                    </h2>
+                    
+                    <p class="lead mb-4" style="color: #718096;">
+                        Извините, но страница, которую вы ищете, не существует или была перемещена.
+                    </p>
+                    
+                    <!-- Suggestions -->
+                    <div class="mb-4">
+                        <h5 class="mb-3" style="color: #374151;">
+                            Попробуйте следующее:
+                        </h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                Проверьте правильность URL
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                Перейдите на <a href="{% url 'dogs:landing_page' %}" class="text-decoration-none">главную страницу</a>
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                Посмотрите <a href="{% url 'dogs:dog_list' %}" class="text-decoration-none">список собак</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                Откройте <a href="{% url 'dogs:dashboard' %}" class="text-decoration-none">личный кабинет</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    
+                    <!-- Action buttons -->
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="{% url 'dogs:landing_page' %}" class="btn btn-primary">
+                            <i class="bi bi-house me-2"></i>
+                            На главную
+                        </a>
+                        
+                        <a href="{% url 'dogs:dog_list' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-grid me-2"></i>
+                            Все собаки
+                        </a>
+                        
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'dogs:dashboard' %}" class="btn btn-success">
+                            <i class="bi bi-person me-2"></i>
+                            Мой кабинет
+                        </a>
+                        {% else %}
+                        <a href="{% url 'dogs:register' %}" class="btn btn-success">
+                            <i class="bi bi-person-plus me-2"></i>
+                            Регистрация
+                        </a>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Contact info -->
+                    <div class="mt-5 pt-4 border-top">
+                        <p class="text-muted mb-0">
+                            Если вы считаете, что это ошибка, 
+                            <a href="mailto:support@dogdating.com" class="text-decoration-none">
+                                свяжитесь с нами
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    .btn-outline-primary {
+        background: transparent;
+        color: #667eea;
+        border: 2px solid #667eea;
+    }
+
+    .btn-outline-primary:hover {
+        background: #667eea;
+        color: white;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        color: white;
+    }
+
+    .text-muted a {
+        color: #667eea;
+    }
+
+    .text-muted a:hover {
+        color: #5a67d8;
+        text-decoration: underline !important;
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 5rem !important;
+        }
+        
+        .d-flex {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .btn {
+            width: 100%;
+            max-width: 250px;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,485 @@
+{% extends "dogs/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Регистрация - DogDating{% endblock %}
+
+{% block landing_content %}
+<style>
+    .auth-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        width: 100%;
+        max-width: 480px;
+        overflow: hidden;
+        animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-header {
+        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .auth-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .auth-header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 1rem;
+    }
+
+    .auth-body {
+        padding: 2rem 2.5rem;
+    }
+
+    .auth-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .auth-form .form-label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .auth-form .form-control {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background: #ffffff;
+    }
+
+    .auth-form .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    .password-container {
+        position: relative;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #6b7280;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: color 0.2s ease;
+    }
+
+    .password-toggle:hover {
+        color: #374151;
+    }
+
+    .form-text {
+        font-size: 0.8rem;
+        color: #6b7280;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .auth-btn {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .auth-btn:active {
+        transform: translateY(0);
+    }
+
+    .auth-footer {
+        text-align: center;
+        padding: 1.5rem 2.5rem;
+        background: #f9fafb;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .auth-footer a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .auth-footer a:hover {
+        color: #5a67d8;
+    }
+
+    .error-message {
+        color: #ef4444;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    .success-message {
+        color: #10b981;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    /* Password strength indicator */
+    .password-strength {
+        margin-top: 0.5rem;
+    }
+
+    .strength-meter {
+        height: 4px;
+        background: #e5e7eb;
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+    }
+
+    .strength-bar {
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+
+    .strength-weak {
+        background: #ef4444;
+        width: 33%;
+    }
+
+    .strength-medium {
+        background: #f59e0b;
+        width: 66%;
+    }
+
+    .strength-strong {
+        background: #10b981;
+        width: 100%;
+    }
+
+    .strength-text {
+        font-size: 0.8rem;
+        color: #6b7280;
+    }
+
+    .strength-weak + .strength-text { color: #ef4444; }
+    .strength-medium + .strength-text { color: #f59e0b; }
+    .strength-strong + .strength-text { color: #10b981; }
+
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+        .auth-container {
+            padding: 1rem;
+        }
+
+        .auth-card {
+            max-width: 100%;
+        }
+
+        .auth-header {
+            padding: 1.5rem;
+        }
+
+        .auth-body {
+            padding: 1.5rem 1.5rem;
+        }
+
+        .auth-footer {
+            padding: 1rem 1.5rem;
+        }
+    }
+
+    /* Loading animation */
+    .loading {
+        position: relative;
+        color: transparent !important;
+    }
+
+    .loading::after {
+        content: "";
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        top: 50%;
+        left: 50%;
+        margin-left: -0.5rem;
+        margin-top: -0.5rem;
+        border: 2px solid #ffffff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>🐕 Добро пожаловать!</h1>
+            <p>Создайте аккаунт и найдите идеального друга для вашей собаки</p>
+        </div>
+
+        <div class="auth-body">
+            <form method="post" id="registerForm" class="auth-form">
+                {% csrf_token %}
+
+                <!-- Username field -->
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">
+                        <i class="bi bi-person-fill"></i> {{ form.username.label }}
+                    </label>
+                    <input type="text"
+                           name="{{ form.username.name }}"
+                           id="{{ form.username.id_for_label }}"
+                           class="form-control {{ form.username.errors|yesno:'is-invalid,' }}"
+                           value="{{ form.username.value|default_if_none:'' }}"
+                           placeholder="Введите имя пользователя"
+                           required>
+                    {% if form.username.errors %}
+                        {% for error in form.username.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Email field -->
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}" class="form-label">
+                        <i class="bi bi-envelope-fill"></i> {{ form.email.label }}
+                    </label>
+                    <input type="email"
+                           name="{{ form.email.name }}"
+                           id="{{ form.email.id_for_label }}"
+                           class="form-control {{ form.email.errors|yesno:'is-invalid,' }}"
+                           value="{{ form.email.value|default_if_none:'' }}"
+                           placeholder="your@email.com"
+                           required>
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Password1 field -->
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}" class="form-label">
+                        <i class="bi bi-lock-fill"></i> {{ form.password1.label }}
+                    </label>
+                    <div class="password-container">
+                        <input type="password"
+                               name="{{ form.password1.name }}"
+                               id="{{ form.password1.id_for_label }}"
+                               class="form-control {{ form.password1.errors|yesno:'is-invalid,' }}"
+                               placeholder="••••••••"
+                               required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('{{ form.password1.id_for_label }}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    {% if form.password1.errors %}
+                        {% for error in form.password1.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <small class="form-text">Пароль должен содержать минимум 8 символов</small>
+                    {% endif %}
+                </div>
+
+                <!-- Password2 field -->
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}" class="form-label">
+                        <i class="bi bi-lock-fill-check"></i> {{ form.password2.label }}
+                    </label>
+                    <div class="password-container">
+                        <input type="password"
+                               name="{{ form.password2.name }}"
+                               id="{{ form.password2.id_for_label }}"
+                               class="form-control {{ form.password2.errors|yesno:'is-invalid,' }}"
+                               placeholder="••••••••"
+                               required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('{{ form.password2.id_for_label }}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    {% if form.password2.errors %}
+                        {% for error in form.password2.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="auth-btn" id="submitBtn">
+                    <span class="btn-text">Создать аккаунт</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            <p>Уже есть аккаунт? <a href="{% url 'dogs:login' %}">Войти</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password visibility toggle
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const button = input.parentElement.querySelector('.password-toggle i');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        button.className = 'bi bi-eye-slash';
+    } else {
+        input.type = 'password';
+        button.className = 'bi bi-eye';
+    }
+}
+
+// Form validation feedback
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn-text');
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    btnText.textContent = 'Регистрация...';
+
+    // Basic client-side validation
+    const username = document.getElementsByName('username')[0].value.trim();
+    const email = document.getElementsByName('email')[0].value.trim();
+    const password1 = document.getElementsByName('password1')[0].value;
+    const password2 = document.getElementsByName('password2')[0].value;
+
+    if (!username || !email || !password1 || !password2) {
+        e.preventDefault();
+        showToast('Заполните все поля', 'error');
+        submitBtn.classList.remove('loading');
+        btnText.textContent = 'Создать аккаунт';
+        return;
+    }
+
+    if (password1 !== password2) {
+        e.preventDefault();
+        showToast('Пароли не совпадают', 'error');
+        submitBtn.classList.remove('loading');
+        btnText.textContent = 'Создать аккаунт';
+        return;
+    }
+
+    if (password1.length < 8) {
+        e.preventDefault();
+        showToast('Пароль должен быть не менее 8 символов', 'error');
+        submitBtn.classList.remove('loading');
+        btnText.textContent = 'Создать аккаунт';
+        return;
+    }
+});
+
+// Toast notification function
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container') || document.body;
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    const icon = type === 'success' ? '✅' :
+                type === 'error' ? '❌' :
+                type === 'info' ? 'ℹ️' : '✅';
+
+    toast.innerHTML = `
+        <span>${icon}</span>
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()" style="border: none; background: none; cursor: pointer; font-size: 1.2rem;">&times;</button>
+    `;
+
+    container.appendChild(toast);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (toast.parentElement) {
+            toast.remove();
+        }
+    }, 5000);
+}
+
+// Real-time password validation
+document.getElementsByName('password1')[0].addEventListener('input', function() {
+    checkPasswordStrength(this.value);
+});
+
+function checkPasswordStrength(password) {
+    const strengthMeter = document.querySelector('.strength-meter');
+    const strengthText = document.querySelector('.strength-text');
+
+    if (!strengthMeter) return;
+
+    let strength = 0;
+    let feedback = [];
+
+    if (password.length >= 8) strength += 1;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/[a-z]/.test(password)) strength += 1;
+    if (/[0-9]/.test(password)) strength += 1;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+    let strengthClass, strengthLabel;
+    if (strength < 2) {
+        strengthClass = 'strength-weak';
+        strengthLabel = 'Слабый';
+    } else if (strength < 4) {
+        strengthClass = 'strength-medium';
+        strengthLabel = 'Средний';
+    } else {
+        strengthClass = 'strength-strong';
+        strengthLabel = 'Сильный';
+    }
+
+    strengthMeter.innerHTML = `<div class="strength-bar ${strengthClass}"></div>`;
+    strengthText.textContent = strengthLabel;
+}
+</script>
+{% endblock %}

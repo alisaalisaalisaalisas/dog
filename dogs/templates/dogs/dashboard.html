@@ -1,0 +1,170 @@
+{% extends "dogs/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }} - DogDating{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="d-flex justify-between align-center">
+        <div>
+            <h1 class="page-title">{{ page_title }}</h1>
+            <p class="page-subtitle">Управляйте своими профилями собак и знакомствами</p>
+        </div>
+        <a href="{% url 'dogs:dog_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Добавить собаку
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 300px; gap: 2rem; margin-bottom: 2rem;">
+
+    <!-- Main Content -->
+    <div>
+
+        <!-- User's Dogs Section -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title" style="margin: 0;">
+                    <i class="bi bi-heart"></i> Мои собаки
+                </h3>
+            </div>
+            <div class="card-body">
+                {% if user_dogs %}
+                    <div class="dogs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        {% for dog in user_dogs %}
+                        <div class="dog-card" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                            <div class="dog-image" style="height: 150px; background: linear-gradient(45deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; position: relative;">
+                                {% if dog.photo %}
+                                    <img src="{{ dog.photo.url }}" alt="{{ dog.name }}" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+                                {% else %}
+                                    <div class="dog-placeholder" style="font-size: 3rem; color: #ccc;">🐕</div>
+                                {% endif %}
+                            </div>
+                            <div class="dog-info" style="padding: 15px;">
+                                <div class="dog-name" style="font-weight: 600; color: #333; margin-bottom: 5px;">{{ dog.name }}</div>
+                                <div class="dog-details" style="color: #666; font-size: 0.9rem; margin-bottom: 10px;">
+                                    {{ dog.breed }}, {{ dog.age }} лет
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'dogs:dog_detail' pk=dog.pk %}" class="btn btn-secondary" style="flex: 1; font-size: 0.9rem;">
+                                        <i class="bi bi-eye"></i> Просмотр
+                                    </a>
+                                    <a href="{% url 'dogs:dog_update' pk=dog.pk %}" class="btn btn-primary" style="flex: 1; font-size: 0.9rem;">
+                                        <i class="bi bi-pencil"></i> Редактировать
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center" style="padding: 3rem;">
+                        <div style="font-size: 3rem; color: #e2e8f0; margin-bottom: 1rem;">🐕</div>
+                        <h3 style="color: #666; margin-bottom: 1rem;">У вас пока нет собак</h3>
+                        <p style="color: #888; margin-bottom: 2rem;">Начните знакомства, добавив профиль своей собаки</p>
+                        <a href="{% url 'dogs:dog_create' %}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> Добавить первую собаку
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div>
+
+        <!-- Profile Section -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4 class="card-title" style="margin: 0;">
+                    <i class="bi bi-person"></i> Мой профиль
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #667eea, #764ba2); display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 2rem; margin-bottom: 1rem;">
+                        {{ request.user.username|first|upper }}
+                    </div>
+                    <h5 style="margin: 0.5rem 0;">{{ request.user.username }}</h5>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0 0 1rem 0;">{{ request.user.email }}</p>
+
+                    <div class="d-flex gap-2" style="flex-direction: column;">
+                        <a href="{% url 'dogs:profile' %}" class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">
+                            <i class="bi bi-eye"></i> Просмотр профиля
+                        </a>
+                        <a href="{% url 'dogs:profile_edit' %}" class="btn btn-primary" style="width: 100%; font-size: 0.9rem;">
+                            <i class="bi bi-pencil"></i> Редактировать
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4 class="card-title" style="margin: 0;">
+                    <i class="bi bi-bar-chart"></i> Статистика
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="stats-mini" style="space-y: 1rem;">
+                    <div class="stat-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #666; font-size: 0.9rem;">Мои собаки</div>
+                            <div style="font-weight: 600; color: #333; font-size: 1.2rem;">{{ user_dogs.count }}</div>
+                        </div>
+                        <div style="background: #667eea; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                            🐕
+                        </div>
+                    </div>
+
+                    <div class="stat-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #666; font-size: 0.9rem;">Мэтчи</div>
+                            <div style="font-weight: 600; color: #333; font-size: 1.2rem;">{{ total_matches }}</div>
+                        </div>
+                        <div style="background: #ec4899; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                            💕
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title" style="margin: 0;">
+                    <i class="bi bi-lightning"></i> Быстрые действия
+                </h4>
+            </div>
+            <div class="card-body">
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <a href="{% url 'dogs:dog_list' %}" class="btn btn-secondary" style="width: 100%; text-align: left;">
+                        <i class="bi bi-search"></i> Искать собак
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Welcome Message for New Users -->
+{% if not user_dogs %}
+<div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+    <div class="card-body text-center">
+        <h3 style="color: white; margin-bottom: 1rem;">Добро пожаловать в DogDating! 🐕</h3>
+        <p style="margin-bottom: 2rem; opacity: 0.9;">Здесь вы найдете идеального компаньона для вашей собаки. Добавьте профиль своего питомца и начните знакомства!</p>
+        <a href="{% url 'dogs:dog_create' %}" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3);">
+            Добавить собаку
+        </a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
