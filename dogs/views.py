@@ -1,51 +1,79 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Dog
+from django.shortcuts import render
 
 
 def home(request):
     """Главная страница"""
-    return render(request, 'dogs/home.html')
+    return render(request, "dogs/home.html")
 
 
-@login_required
 def register_dog(request):
     """Регистрация собаки"""
-    if request.method == 'POST':
-        # Обработка формы
-        pass
-    return render(request, 'dogs/register.html')
+    return render(
+        request,
+        "dogs/home.html",
+        {
+            "page_title": "Регистрация собаки",
+            "message": "Здесь будет форма регистрации собаки",
+        },
+    )
 
 
-@login_required
-def dog_profile(request, dog_id):
-    """Профиль собаки"""
-    dog = Dog.objects.get(id=dog_id)
-    return render(request, 'dogs/profile.html', {'dog': dog})
-
-
-@login_required
 def matches(request):
     """Страница подбора пар"""
-    dogs = Dog.objects.exclude(owner=request.user)
-    return render(request, 'dogs/matches.html', {'dogs': dogs})
+    return render(
+        request,
+        "dogs/home.html",
+        {
+            "page_title": "Найти пару",
+            "message": "Здесь будут анкеты собак для знакомства",
+        },
+    )
 
 
 def about(request):
     """О сервисе"""
-    return render(request, 'dogs/about.html')
+    return render(
+        request,
+        "dogs/home.html",
+        {"page_title": "О сервисе", "message": "Информация о сервисе DogDating"},
+    )
 
 
 def breeds(request):
     """Породы"""
-    return render(request, 'dogs/breeds.html')
+    return render(
+        request,
+        "dogs/home.html",
+        {"page_title": "Породы собак", "message": "Каталог пород собак"},
+    )
 
 
 def events(request):
     """Мероприятия"""
-    return render(request, 'dogs/events.html')
+    return render(
+        request,
+        "dogs/home.html",
+        {"page_title": "Мероприятия", "message": "Календарь мероприятий для собак"},
+    )
 
 
 def tips(request):
     """Советы"""
-    return render(request, 'dogs/tips.html')
+    return render(
+        request,
+        "dogs/home.html",
+        {"page_title": "Полезные советы", "message": "Советы по уходу за собаками"},
+    )
+
+
+def dog_profile(request, dog_id):
+    """Профиль собаки"""
+    return render(
+        request,
+        "dogs/home.html",
+        {
+            "page_title": f"Профиль собаки #{dog_id}",
+            "message": f"Здесь будет информация о собаке с ID: {dog_id}",
+            "dog_id": dog_id,
+        },
+    )
