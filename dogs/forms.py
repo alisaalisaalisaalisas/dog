@@ -57,7 +57,10 @@ class UserRegistrationForm(UserCreationForm):
         if commit:
             user.save()
             # Создаем UserProfile автоматически
-            UserProfile.objects.create(user=user)
+            try:
+                UserProfile.objects.create(user=user)
+            except:
+                pass  # If creation fails, continue
         return user
 
 

@@ -20,6 +20,14 @@ from .forms import (
 
 def landing_page(request):
     """Главная страница для неавторизованных пользователей"""
+    # Fix admin authentication separation: logout staff users (admin panel users)
+    # to prevent admin auto-login on frontend
+    if request.user.is_authenticated and request.user.is_staff:
+        from django.contrib.auth import logout
+
+        logout(request)
+        return redirect("dogs:landing_page")
+
     if request.user.is_authenticated:
         return redirect("dogs:dashboard")
 
