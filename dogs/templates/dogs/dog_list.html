@@ -169,46 +169,4 @@
         {% endif %}
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Favorite button functionality
-    document.querySelectorAll('.favorite-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const dogId = this.dataset.dogId;
-            const button = this;
-            
-            button.innerHTML = '<div class="spinner"></div>';
-            button.disabled = true;
-            
-            fetch(`/dogs/${dogId}/favorite/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.is_favorite) {
-                    button.innerHTML = '<i class="bi bi-heart-fill" style="color: red;"></i>';
-                    showToast(data.message, 'success');
-                } else {
-                    button.innerHTML = '<i class="bi bi-heart"></i>';
-                    showToast(data.message, 'info');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                button.innerHTML = '<i class="bi bi-heart"></i>';
-                showToast('Произошла ошибка', 'error');
-            })
-            .finally(() => {
-                button.disabled = false;
-            });
-        });
-    });
-});
-</script>
 {% endblock %}

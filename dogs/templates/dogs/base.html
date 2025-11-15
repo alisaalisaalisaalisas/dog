@@ -116,30 +116,75 @@
             min-height: calc(100vh - 120px);
         }
 
-        /* Sidebar */
+        /* Modern Sidebar */
         .sidebar {
             width: 280px;
-            background: white;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
             border-right: 1px solid #e2e8f0;
             padding: 2rem 1.5rem 2rem 2rem;
             display: flex;
             flex-direction: column;
+            position: relative;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         }
 
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border-radius: 0 0 2px 2px;
+        }
+
+        /* Modern Sidebar Sections */
         .sidebar-section {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            background: rgba(255,255,255,0.8);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(226,232,240,0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
 
+        .sidebar-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            opacity: 0.3;
+        }
+
+        /* Modern Sidebar Titles */
         .sidebar-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #718096;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #4a5568;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .sidebar-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, transparent);
+            margin-left: 10px;
+            opacity: 0.3;
         }
 
         /* Menu Styles */
@@ -150,52 +195,132 @@
         }
 
         .menu-item {
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            position: relative;
         }
 
+        /* Modern Menu Links */
         .menu-link {
             display: block;
-            padding: 12px 16px;
+            padding: 14px 18px;
             text-decoration: none;
-            color: #4a5568;
-            border-radius: 8px;
-            transition: all 0.2s ease;
+            color: #5a6c7d;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.9rem;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%);
+            border: 1px solid rgba(226,232,240,0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            transform: scaleY(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0 2px 2px 0;
         }
 
         .menu-link:hover {
-            background-color: #f7fafc;
+            background: linear-gradient(135deg, rgba(102,126,234,0.08) 0%, rgba(118,75,162,0.05) 100%);
             color: #2d3748;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102,126,234,0.15);
+            border-color: rgba(102,126,234,0.2);
+        }
+
+        .menu-link:hover::before {
+            transform: scaleY(1);
         }
 
         .menu-link.active-link {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 16px rgba(102,126,234,0.3);
+            transform: translateY(-1px);
+            border-color: transparent;
         }
 
+        .menu-link.active-link::before {
+            transform: scaleY(1);
+            background: linear-gradient(180deg, #ffffff, rgba(255,255,255,0.8));
+        }
+
+        .menu-link i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-link:hover i,
+        .menu-link.active-link i {
+            opacity: 1;
+        }
+
+        /* Modern Submenu */
         .submenu {
             list-style: none;
             padding-left: 20px;
             margin-top: 8px;
+            position: relative;
+        }
+
+        .submenu::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(180deg, rgba(102,126,234,0.3), rgba(118,75,162,0.2));
         }
 
         .arrow {
             margin-left: auto;
             font-size: 0.8rem;
             transition: transform 0.2s ease;
+            opacity: 0.6;
         }
 
         /* Main content */
         .content {
             flex: 1;
             padding: 2rem;
-            max-width: calc(100vw - 280px);
-            overflow-x: auto;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .content::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
 
         /* Page header */
@@ -355,9 +480,6 @@
             font-size: 1.125rem;
         }
 
-        /* Alerts/Messages */
-        {% comment %} These will be included via Django messages {% endcomment %}
-
         /* Footer */
         .main-footer {
             background: #1a202c;
@@ -494,29 +616,39 @@
             border-left: 4px solid #3b82f6;
         }
 
-        /* Nested scrolling fix - prevent wheel event conflicts */
-        .scrollable-container {
-            overflow: auto;
-            /* Prevent wheel events from bubbling to parent containers */
-            overscroll-behavior: contain;
+        /* Collapsible menu functionality */
+        .menu-link-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        /* Ensure submenus can scroll properly when they have many items */
-        .submenu {
-            list-style: none;
-            padding-left: 20px;
-            margin-top: 8px;
-            max-height: 300px;
-            overflow-y: auto;
-            overscroll-behavior: contain;
+        .expand-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            margin-left: 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            color: #667eea;
         }
 
-        /* Prevent content from causing parent scroll when it's scrollable */
-        .content .scrollable-content {
-            /* Only enable scrolling when content exceeds container height */
-            max-height: calc(100vh - 200px);
-            overflow-y: auto;
-            overscroll-behavior: contain;
+        .expand-toggle:hover {
+            background-color: rgba(102,126,234,0.1);
+            color: #764ba2;
+        }
+
+        .submenu.collapsed {
+            display: none;
+        }
+
+        .expand-toggle.collapsed .arrow {
+            transform: rotate(-90deg);
+        }
+
+        .expand-toggle:not(.collapsed) .arrow {
+            transform: rotate(0deg);
         }
     </style>
 </head>
@@ -712,6 +844,33 @@
                         toggleFavorite(dogId, this);
                     });
                     btn.dataset.listenerAdded = true;
+                }
+            });
+        });
+
+        // Collapsible menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle menu toggle clicks
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.expand-toggle')) {
+                    e.preventDefault();
+                    const toggle = e.target.closest('.expand-toggle');
+                    const targetId = toggle.dataset.target;
+                    const targetMenu = document.getElementById(targetId);
+                    
+                    if (targetMenu) {
+                        const isExpanded = !targetMenu.classList.contains('collapsed');
+                        
+                        if (isExpanded) {
+                            // Collapse the menu
+                            targetMenu.classList.add('collapsed');
+                            toggle.classList.add('collapsed');
+                        } else {
+                            // Expand the menu
+                            targetMenu.classList.remove('collapsed');
+                            toggle.classList.remove('collapsed');
+                        }
+                    }
                 }
             });
         });
