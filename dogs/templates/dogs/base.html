@@ -222,14 +222,17 @@
         .menu-link::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
+            left: -1px;
+            top: -1px;
+            bottom: -1px;
+            right: -1px;
             background: linear-gradient(180deg, #667eea, #764ba2);
-            transform: scaleY(0);
+            transform: scaleX(0);
+            transform-origin: left center;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0 2px 2px 0;
+            border-radius: 12px;
+            clip-path: inset(0 100% -1px 0);
+            z-index: 1;
         }
 
         .menu-link:hover {
@@ -241,7 +244,13 @@
         }
 
         .menu-link:hover::before {
-            transform: scaleY(1);
+            transform: scaleX(1);
+            clip-path: inset(0 100% -1px 0);
+        }
+
+        .menu-link:active::before {
+            transform: scaleX(1);
+            clip-path: inset(0 100% -1px 0);
         }
 
         .menu-link.active-link {
@@ -253,7 +262,8 @@
         }
 
         .menu-link.active-link::before {
-            transform: scaleY(1);
+            transform: scaleX(1);
+            clip-path: inset(0 100% -1px 0);
             background: linear-gradient(180deg, #ffffff, rgba(255,255,255,0.8));
         }
 

@@ -59,5 +59,9 @@
             "bold": false,
             "italic": false
         }
-    ]
+    ],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "neveruslovu",
+        "projectKey": "neveruslovu_dog_dating_project"
+    }
 }
