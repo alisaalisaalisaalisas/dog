@@ -493,6 +493,31 @@
         .toast-info {
             border-left: 4px solid #3b82f6;
         }
+
+        /* Nested scrolling fix - prevent wheel event conflicts */
+        .scrollable-container {
+            overflow: auto;
+            /* Prevent wheel events from bubbling to parent containers */
+            overscroll-behavior: contain;
+        }
+
+        /* Ensure submenus can scroll properly when they have many items */
+        .submenu {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        /* Prevent content from causing parent scroll when it's scrollable */
+        .content .scrollable-content {
+            /* Only enable scrolling when content exceeds container height */
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
     </style>
 </head>
 <body>
@@ -688,6 +713,52 @@
                     });
                     btn.dataset.listenerAdded = true;
                 }
+            });
+        });
+
+        // Scroll wheel conflict prevention for nested scrollable areas
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevent scroll wheel from bubbling up between nested scrollable areas
+            const scrollableAreas = document.querySelectorAll('.submenu, .scrollable-content');
+            
+            scrollableAreas.forEach(area => {
+                area.addEventListener('wheel', function(e) {
+                    // Check if this area can still scroll
+                    const canScrollUp = this.scrollTop > 0;
+                    const canScrollDown = this.scrollTop < this.scrollHeight - this.clientHeight;
+                    
+                    // If we're at the top and trying to scroll up, or at the bottom and trying to scroll down
+                    const atTop = !canScrollUp && e.deltaY < 0;
+                    const atBottom = !canScrollDown && e.deltaY > 0;
+                    
+                    // If we can't scroll in the direction we're trying to go, prevent the wheel event from bubbling
+                    if (atTop || atBottom) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }, { passive: false });
+
+                // Prevent touch/mouse events from causing scroll chaining
+                area.addEventListener('touchstart', function(e) {
+                    this._touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                area.addEventListener('touchmove', function(e) {
+                    const touchY = e.touches[0].clientY;
+                    const touchDelta = this._touchStartY - touchY;
+                    
+                    const canScrollUp = this.scrollTop > 0;
+                    const canScrollDown = this.scrollTop < this.scrollHeight - this.clientHeight;
+                    
+                    // If we're at the edge and trying to scroll beyond, prevent the event
+                    const atTop = !canScrollUp && touchDelta < 0;
+                    const atBottom = !canScrollDown && touchDelta > 0;
+                    
+                    if (atTop || atBottom) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }, { passive: false });
             });
         });
     </script>

@@ -53,23 +53,72 @@ def draw_menu(context, menu_name):
             else:
                 root_items.append(item_data)
 
+        # Находим активный элемент и его путь
+        active_item = None
+
+        def find_active_item(items):
+            for item_data in items:
+                if item_data["is_active"]:
+                    return item_data
+                # Рекурсивно ищем в дочерних элементах
+                found = find_active_item(item_data["children"])
+                if found:
+                    return found
+            return None
+
+        active_item = find_active_item(root_items)
+
+        # Собираем все элементы в правильном порядке для определения "выше"
+        def collect_all_items(items, result=None):
+            if result is None:
+                result = []
+            for item_data in items:
+                result.append(item_data)
+                collect_all_items(item_data["children"], result)
+            return result
+
+        all_items_in_order = collect_all_items(root_items)
+
         # Определяем, какие пункты должны быть развернуты
-        def mark_expanded_items(items, parent_active=False):
+        def mark_expanded_items(items, parent_active=False, found_active=False):
             has_any_active = False
             for item_data in items:
                 children = item_data["children"]
 
                 # Проверяем, есть ли активные дети
                 has_active_child = any(
-                    mark_expanded_items([child], item_data["is_active"])
+                    mark_expanded_items([child], item_data["is_active"], found_active)
                     for child in children
                 )
 
+                # Определяем позицию текущего элемента
+                current_index = (
+                    all_items_in_order.index(item_data)
+                    if item_data in all_items_in_order
+                    else -1
+                )
+                active_index = (
+                    all_items_in_order.index(active_item)
+                    if active_item and active_item in all_items_in_order
+                    else -1
+                )
+
                 # Разворачиваем пункт если:
-                # 1. Он сам активный
-                # 2. У него есть активный потомок
-                # 3. Его родитель активный (первый уровень под активным)
-                if item_data["is_active"] or has_active_child or parent_active:
+                # 1. Все элементы выше активного (индекс меньше активного)
+                # 2. Он сам активный
+                # 3. Первый уровень под активным (parent_active)
+                should_expand = (
+                    (
+                        current_index >= 0
+                        and active_index >= 0
+                        and current_index < active_index
+                    )  # Все выше активного
+                    or item_data["is_active"]  # Сам активный
+                    or has_active_child  # Есть активные потомки
+                    or parent_active  # Первый уровень под активным
+                )
+
+                if should_expand:
                     item_data["is_expanded"] = True
 
                 # Отмечаем, что этот пункт или его потомок активный

@@ -167,8 +167,9 @@ class DogForm(forms.ModelForm):
         if not self.instance.pk and self.user:
             # Устанавливаем владельца автоматически
             self.instance.owner = self.user
-            # Скрываем поле owner из формы
-            del self.fields["owner"]
+            # Скрываем поле owner из формы только если оно существует
+            if "owner" in self.fields:
+                del self.fields["owner"]
 
     def clean_age(self):
         age = self.cleaned_data.get("age")

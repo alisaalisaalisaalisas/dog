@@ -95,7 +95,7 @@ def user_logout(request):
     """Выход пользователя"""
     logout(request)
     messages.info(request, "Вы успешно вышли из системы.")
-    return redirect("landing_page")
+    return redirect("dogs:landing_page")
 
 
 @login_required
@@ -131,7 +131,7 @@ def dashboard(request):
 def home(request):
     """Главная страница"""
     if not request.user.is_authenticated:
-        return redirect("landing_page")
+        return redirect("dogs:landing_page")
 
     return render(request, "dogs/home.html")
 
@@ -344,7 +344,7 @@ def delete_account(request):
             messages.success(
                 request, f'Аккаунт пользователя "{username}" успешно удален.'
             )
-            return redirect("landing_page")
+            return redirect("dogs:landing_page")
     else:
         form = AccountDeletionForm()
 

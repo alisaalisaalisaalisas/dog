@@ -1,0 +1,120 @@
+{% extends 'dogs/base.html' %}
+
+{% block title %}Контакты - DogDating{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1 class="page-title">Контакты</h1>
+        <p class="page-subtitle">Свяжитесь с нами любым удобным способом</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>📞 Связаться с нами</h3>
+            
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">📧 Email</h5>
+                    <p class="card-text">info@dogdating.ru</p>
+                    <p class="card-text">support@dogdating.ru</p>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">📱 Телефон</h5>
+                    <p class="card-text">+7 (495) 123-45-67</p>
+                    <p class="card-text">Ежедневно с 9:00 до 21:00</p>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">💬 Онлайн-чат</h5>
+                    <p class="card-text">В рабочие часы на сайте</p>
+                    <p class="card-text">Быстрые ответы на ваши вопросы</p>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">📍 Адрес офиса</h5>
+                    <p class="card-text">г. Москва, ул. Тверская, д. 15, офис 301</p>
+                    <p class="card-text">Пн-Пт: 10:00 - 18:00</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <h3>💬 Напишите нам</h3>
+            <form>
+                <div class="form-group">
+                    <label for="name">Ваше имя</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Тема</label>
+                    <select class="form-control" id="subject">
+                        <option>Общие вопросы</option>
+                        <option>Техническая поддержка</option>
+                        <option>Партнерство</option>
+                        <option>Реклама</option>
+                        <option>Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Сообщение</label>
+                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+
+            <div class="mt-4">
+                <h4>🌐 Мы в социальных сетях</h4>
+                <div class="d-flex gap-3">
+                    <a href="#" class="btn btn-outline-primary">VK</a>
+                    <a href="#" class="btn btn-outline-primary">Telegram</a>
+                    <a href="#" class="btn btn-outline-primary">Instagram</a>
+                    <a href="#" class="btn btn-outline-primary">Facebook</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h3>Часто задаваемые вопросы</h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                        Как зарегистрировать профиль собаки?
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Регистрация очень простая - создайте аккаунт, добавьте информацию о своей собаке и начните знакомства!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                        Сколько стоит пользование сервисом?
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Базовая версия бесплатна. Премиум функции доступны по подписке от 299 рублей в месяц.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
