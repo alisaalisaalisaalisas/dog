@@ -1,3 +1,17 @@
+import os
+import sys
+import django
+from django.conf import settings
+
+# Add parent directory to path if running standalone
+if __name__ == "__main__" or not settings.configured:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+
+# Setup Django if not configured
+if not settings.configured:
+    django.setup()
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 from dogs.forms import UserRegistrationForm
