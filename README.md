@@ -1,15 +1,11 @@
 # DogDating - Django Dog Dating Platform
-<img width="2559" height="1334" alt="image" src="https://github.com/user-attachments/assets/4ac3d399-539c-4ab4-8181-d9a2f306a625" />
-<img width="2555" height="1333" alt="image" src="https://github.com/user-attachments/assets/b0e514d7-3b66-4b81-bfe8-6114ff7aecce" />
-
-
 
 ![DogDating Logo](https://img.shields.io/badge/DogDating-🐕-blue?style=for-the-badge)
 ![Django Version](https://img.shields.io/badge/Django-4.2+-green?style=flat-square)
 ![Python Version](https://img.shields.io/badge/Python-3.8+-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-DogDating is a modern web application built with Django that helps dog owners find compatible companions for their pets. The platform features advanced matching algorithms, user profiles, messaging system, and a beautiful responsive design.
+DogDating is a modern web application built with Django that helps dog owners find compatible companions for their pets. The platform features user profiles, matching system, favorites, and a responsive design with Russian language support.
 
 ## 🌟 Features
 
@@ -17,28 +13,38 @@ DogDating is a modern web application built with Django that helps dog owners fi
 
 - **User Authentication System** - Registration, login, password management
 - **Dog Profile Management** - Create, edit, and manage multiple dog profiles
-- **Advanced Matching Algorithm** - AI-powered compatibility scoring based on breed, age, size, temperament, and preferences
+- **Matching System** - Basic compatibility matching between dogs
 - **Favorites System** - Save dogs you're interested in
-- **Match Management** - Send, receive, accept, or decline match requests
-- **Messaging System** - Communicate with other dog owners
-- **Search & Filters** - Advanced search with multiple filters (breed, age, size, gender)
-- **Pagination** - Efficient handling of large datasets
+- **Match Management** - View and manage match requests
+- **User Profiles** - Extended user information with avatars
+- **Search & Browse** - View all dogs with basic filtering
+- **Dashboard** - Central hub for user activities
+
+### Additional Features
+
+- **Multi-language Support** - Russian language interface (LANGUAGE_CODE: ru-ru)
+- **Menu Management System** - Dynamic menu via menu_app
+- **Custom Error Pages** - 404 and 500 error handling
+- **Template Components** - Reusable template components
+- **Management Commands** - Data population and menu setup commands
 
 ### Technical Features
 
-- **Responsive Design** - Mobile-first, works perfectly on all devices
-- **Image Upload & Optimization** - Automatic image optimization and default placeholders
-- **AJAX Interactions** - Smooth, asynchronous user experience
+- **Django 4.2+** - Modern Django framework with latest features
+- **SQLite Database** - Lightweight database for development and small deployments
+- **Template System** - Django templates with custom template tags
+- **Static Files Management** - Organized static and media file handling
 - **Error Handling** - Custom 404 and 500 error pages
-- **Admin Panel** - Comprehensive Django admin interface
-- **Database Optimization** - Efficient queries with select_related and prefetch_related
+- **Admin Panel** - Django admin interface for content management
+- **Management Commands** - Custom Django management commands for data setup
 
 ### UI/UX Features
 
-- **Modern Design** - Beautiful gradient backgrounds and card-based layouts
-- **Loading States** - Loading spinners and toast notifications
-- **Interactive Elements** - Hover effects and smooth transitions
-- **Accessibility** - Proper semantic HTML and ARIA labels
+- **Responsive Design** - Mobile-friendly interface
+- **Russian Language** - Full Russian language interface
+- **Component-based Templates** - Reusable template components
+- **Clean Layout** - Simple, user-friendly design
+- **Navigation System** - Dynamic menu management
 
 ## 📋 Table of Contents
 
@@ -81,6 +87,8 @@ DogDating is a modern web application built with Django that helps dog owners fi
    pip install -r requirements.txt
    ```
 
+   Note: The project uses Django>=4.2,<5.0 as the main dependency.
+
 4. **Database setup**
 
    ```bash
@@ -104,25 +112,22 @@ DogDating is a modern web application built with Django that helps dog owners fi
    - Main site: <http://127.0.0.1:8000>
    - Admin panel: <http://127.0.0.1:8000/admin>
 
+8. **Optional: Populate sample data**
+   ```bash
+   python manage.py populate_data
+   ```
+
 ## ⚙️ Configuration
 
 ### Environment Variables
 
-Create a `.env` file in the project root:
+The project uses environment variables for configuration. Key settings:
 
-```env
-DEBUG=True
-SECRET_KEY=your-secret-key-here
-DATABASE_URL=sqlite:///db.sqlite3
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# Email configuration (optional)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-```
+- `SECRET_KEY` - Auto-generated if not provided
+- `DEBUG` - Set to True for development
+- `ALLOWED_HOSTS` - Defaults to ["localhost", "127.0.0.1"]
+- `LANGUAGE_CODE` - Set to "ru-ru" (Russian)
+- `TIME_ZONE` - Set to "Europe/Moscow"
 
 ### Media Files
 
@@ -133,20 +138,14 @@ The application uses Django's media files for image uploads. Images are automati
 
 ### Database Configuration
 
-The project uses SQLite by default. For production, consider PostgreSQL:
+The project uses SQLite by default with `db.sqlite3` file. The current configuration includes:
 
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dogdating',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
+- SQLite database for development
+- Basic user authentication models
+- Dog profiles and matching system
+- Menu management system
+
+For production, consider PostgreSQL or MySQL for better performance.
 
 ## 📖 Usage
 
@@ -194,12 +193,12 @@ DATABASES = {
 ```
 dog_dating_project/
 ├── manage.py                 # Django management script
-├── requirements.txt          # Python dependencies
+├── requirements.txt          # Python dependencies (Django>=4.2,<5.0)
 ├── README.md                 # This file
-├── DATABASE_TUTORIAL.md      # Database documentation
+├── db.sqlite3               # SQLite database file
 ├── project/                  # Project configuration
 │   ├── __init__.py
-│   ├── settings.py           # Django settings
+│   ├── settings.py           # Django settings (Russian locale)
 │   ├── urls.py              # Main URL configuration
 │   ├── wsgi.py              # WSGI configuration
 │   └── asgi.py              # ASGI configuration
@@ -212,7 +211,13 @@ dog_dating_project/
 │   ├── urls.py              # App URL patterns
 │   ├── utils.py             # Utility functions
 │   ├── views.py             # View functions
+│   ├── views_new.py         # Additional views
+│   ├── management/          # Management commands
+│   │   └── commands/
+│   │       └── populate_data.py  # Data population command
 │   ├── migrations/          # Database migrations
+│   ├── templatetags/        # Custom template tags
+│   │   └── dogs_tags.py
 │   └── templates/           # HTML templates
 │       └── dogs/
 │           ├── base.html
@@ -224,20 +229,37 @@ dog_dating_project/
 │           ├── profile.html
 │           ├── login.html
 │           ├── register.html
+│           ├── matches.html
+│           ├── favorites.html
+│           ├── about.html
+│           ├── contacts.html
+│           ├── privacy.html
+│           ├── tips.html
+│           ├── events.html
+│           ├── breeds.html
 │           ├── error_404.html
-│           └── error_500.html
-└── menu_app/                 # Menu management app
-    ├── __init__.py
-    ├── admin.py
-    ├── apps.py
-    ├── models.py
-    ├── urls.py
-    ├── views.py
-    ├── migrations/
-    ├── templates/
-    │   └── menu/
-    └── templatetags/
-        └── menu_tags.py
+│           ├── error_500.html
+│           └── components/
+│               └── messages.html
+├── menu_app/                 # Menu management app
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── management/          # Management commands
+│   │   └── commands/
+│   │       └── setup_menus.py  # Menu setup command
+│   ├── migrations/
+│   ├── templatetags/
+│   │   └── menu_tags.py
+│   └── templates/
+│       └── menu/
+│           ├── menu.html
+│           └── menu_item.html
+└── tests/                    # Test suite
+    ├── test_db.py
+    ├── test_models.py
+    └── test_views.py
 ```
 
 ## 🗃️ Database Models
@@ -265,14 +287,8 @@ dog_dating_project/
 #### Match
 
 - Dog-to-dog matching system
-- Status tracking (pending, accepted, declined)
+- Status tracking
 - Timestamp tracking
-
-#### Message
-
-- User-to-user messaging
-- Subject and content
-- Read/unread status
 
 #### Favorite
 
@@ -280,14 +296,20 @@ dog_dating_project/
 - Many-to-many relationship
 - Timestamp tracking
 
+#### Menu (menu_app)
+
+- Dynamic menu management
+- Hierarchical menu structure
+- Multi-language support
+
 ### Model Relationships
 
 ```
 User ←→ UserProfile (1:1)
 User ←→ Dog (1:many)
-Dog ←→ Match (1:many, two relationships)
-User ←→ Message (1:many, two relationships)
+Dog ←→ Match (1:many)
 User ←→ Favorite (1:many)
+Menu ←→ MenuItem (1:many)
 ```
 
 ## 🔌 API Endpoints
@@ -308,22 +330,24 @@ User ←→ Favorite (1:many)
 
 ### Matching System
 
-- `POST /matches/<id>/favorite/` - Toggle favorite
 - `GET /matches/` - List user's matches
-- `POST /matches/<id>/accept/` - Accept match
-- `POST /matches/<id>/decline/` - Decline match
+- `POST /matches/<id>/favorite/` - Toggle favorite
 
 ### User Management
 
 - `GET /profile/` - User profile view
-- `PUT /profile/edit/` - Update profile
+- `POST /profile/edit/` - Update profile
 - `POST /password/change/` - Change password
 - `POST /account/delete/` - Delete account
 
-### AJAX Endpoints
+### Additional Pages
 
-- `POST /toggle-favorite/<id>/` - AJAX favorite toggle
-- All standard endpoints support AJAX where appropriate
+- `GET /about/` - About page
+- `GET /contacts/` - Contact information
+- `GET /privacy/` - Privacy policy
+- `GET /tips/` - Dog care tips
+- `GET /events/` - Events page
+- `GET /breeds/` - Dog breeds information
 
 ## 🧪 Testing
 
@@ -346,11 +370,9 @@ coverage report
 
 The project includes tests for:
 
-- User authentication
-- Dog CRUD operations
-- Matching algorithm
-- Forms validation
-- AJAX interactions
+- Database operations (`test_db.py`)
+- Model functionality (`test_models.py`)
+- View functionality (`test_views.py`)
 
 ## 🚀 Deployment
 
@@ -425,10 +447,9 @@ AWS_S3_REGION_NAME = 'us-east-1'
 
 ## 📚 Documentation
 
-- [Database Tutorial](DATABASE_TUTORIAL.md) - Detailed database guide
-- [API Documentation](docs/api.md) - Complete API reference
-- [Contributing Guide](CONTRIBUTING.md) - How to contribute
-- [Deployment Guide](docs/deployment.md) - Production deployment
+- This README.md - Project overview and setup guide
+- Inline code documentation - Docstrings in models, views, and utilities
+- Django Admin - Built-in admin interface for data management
 
 ## 🤝 Contributing
 
@@ -446,9 +467,9 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ### Code Style
 
 - Follow PEP 8 guidelines
-- Use Black for code formatting
 - Write meaningful commit messages
 - Add docstrings to functions and classes
+- Use Russian language for user-facing content
 
 ## 📄 License
 
@@ -458,44 +479,52 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Getting Help
 
-- 📧 Email: <support@dogdating.com>
-- 🐛 Bug Reports: [GitHub Issues](https://github.com/yourusername/dog-dating/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/dog-dating/discussions)
+- 📧 Check the Django admin panel for debugging
+- 🐛 Review the error logs in the console
+- 💬 Use Django's built-in debugging tools in development mode
 
 ### FAQ
 
-**Q: How does the matching algorithm work?**
-A: The algorithm calculates compatibility based on age difference, size compatibility, gender preferences, matching goals, breed similarity, and temperament keywords.
+**Q: What language does the application use?**
+A: The application interface is in Russian (LANGUAGE_CODE: ru-ru).
 
 **Q: Can users have multiple dogs?**
 A: Yes, each user can create profiles for multiple dogs.
 
 **Q: Is the site mobile-friendly?**
-A: Yes, the entire application is built with a mobile-first responsive design.
+A: Yes, the application uses responsive design templates.
 
-**Q: How are images optimized?**
-A: Images are automatically resized and compressed when uploaded, with default placeholders for missing images.
+**Q: How do I populate sample data?**
+A: Use the management command `python manage.py populate_data`.
+
+**Q: How do I set up the menu system?**
+A: Use the management command `python manage.py setup_menus`.
 
 ## 🎯 Roadmap
 
-### Upcoming Features
+### Current Features
 
-- [ ] Mobile app (React Native)
-- [ ] Advanced filtering (location-based, distance)
-- [ ] Video chat integration
-- [ ] Event planning features
-- [ ] Veterinary service integration
-- [ ] Social media sharing
-- [ ] Advanced analytics dashboard
-- [ ] Multi-language support
+- ✅ User authentication and registration
+- ✅ Dog profile management
+- ✅ Basic matching system
+- ✅ Favorites functionality
+- ✅ Russian language interface
+- ✅ Menu management system
+- ✅ Custom error pages
+- ✅ Management commands for data setup
 
-### Version History
+### Potential Future Enhancements
 
-- **v1.0.0** - Initial release with core features
-- **v1.1.0** - Image optimization and error pages
-- **v1.2.0** - Enhanced matching algorithm
-- **v1.3.0** - Mobile optimization
+- [ ] Advanced matching algorithms
+- [ ] Messaging system between users
+- [ ] Image upload and optimization
+- [ ] Location-based search
+- [ ] Mobile app development
+- [ ] Multi-language support beyond Russian
+- [ ] Social features and events
 
 ---
 
 Made with ❤️ for dog lovers everywhere. Woof! 🐕
+
+**Current Status**: Development project with Django 4.2+, Russian language support, and basic dog dating functionality.
