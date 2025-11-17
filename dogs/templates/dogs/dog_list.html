@@ -55,13 +55,25 @@
         border-color: #3b82f6 !important;
         transform: none;
     }
+
+    .dog-list-row {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+        .dog-list-row {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 <div class="page-header">
     <h1 class="page-title">Список собак</h1>
     <p class="page-subtitle">Найдите идеального друга для своей собаки</p>
 </div>
 
-<div class="row" style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
+<div class="row dog-list-row">
     <!-- Filters Sidebar -->
     <div>
         <div class="card">

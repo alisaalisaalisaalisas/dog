@@ -3,6 +3,21 @@
 {% block title %}Мой профиль - {{ block.super }}{% endblock %}
 
 {% block content %}
+<style>
+    .profile-row {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 2rem;
+        max-width: 1000px;
+    }
+
+    @media (max-width: 1024px) {
+        .profile-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
 <div class="page-header">
     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
         <div>
@@ -15,7 +30,7 @@
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; max-width: 1000px;">
+<div class="profile-row">
     <!-- Profile Info -->
     <div>
         <div class="card">

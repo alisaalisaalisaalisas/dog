@@ -1,0 +1,448 @@
+/**
+ * Mobile Responsive Best Practices
+ * Примеры использования мобильной адаптации в шаблонах
+ */
+
+/*
+ * ПРИМЕР 1: Адаптивная сетка для карточек
+ */
+.dog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 0;
+}
+
+/* На мобилке - 1 колонка */
+@media (max-width: 480px) {
+    .dog-grid {
+        grid-template-columns: 1fr;
+        gap: 0.875rem;
+    }
+}
+
+/* На планшете - 2 колонки */
+@media (max-width: 768px) and (min-width: 481px) {
+    .dog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/*
+ * ПРИМЕР 2: Адаптивный flex layout
+ */
+.profile-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/*
+ * ПРИМЕР 3: Скрытие элементов на мобилке
+ */
+.desktop-only {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+}
+
+/*
+ * ПРИМЕР 4: Отзывчивые размеры шрифтов
+ */
+.section-title {
+    font-size: 2rem;
+    /* Desktop */
+}
+
+@media (max-width: 1024px) {
+    .section-title {
+        font-size: 1.75rem;
+        /* Планшет */
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+        /* Мобилка */
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.25rem;
+        /* Маленькая мобилка */
+    }
+}
+
+/*
+ * ПРИМЕР 5: Touch-friendly интерактивные элементы
+ */
+.interactive-element {
+    min-height: 44px;
+    min-width: 48px;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* На сенсорных устройствах - без hover эффектов */
+@media (hover: none) and (pointer: coarse) {
+    .interactive-element:hover {
+        transform: none;
+        background: inherit;
+    }
+
+    .interactive-element:active {
+        opacity: 0.7;
+        transform: scale(0.95);
+    }
+}
+
+/*
+ * ПРИМЕР 6: Адаптивные изображения
+ */
+.responsive-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 320px) {
+    .responsive-image {
+        border-radius: 6px;
+    }
+}
+
+/* Для мобилок */
+@media (max-width: 480px) {
+    .responsive-image {
+        border-radius: 8px;
+    }
+}
+
+/*
+ * ПРИМЕР 7: Адаптивные таблицы
+ */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* На мобилке - преобразуем в карточки */
+@media (max-width: 768px) {
+
+    .data-table,
+    .data-table tbody,
+    .data-table tr,
+    .data-table th,
+    .data-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .data-table th {
+        display: none;
+    }
+
+    .data-table tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .data-table td {
+        padding: 0.75rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .data-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        width: 40%;
+    }
+}
+
+/*
+ * ПРИМЕР 8: Адаптивные модальные окна
+ */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: calc(100% - 1rem);
+        padding: 1rem;
+        border-radius: 10px;
+        max-height: 85vh;
+    }
+}
+
+/*
+ * ПРИМЕР 9: Адаптивная навигация
+ */
+.nav-items {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav-item {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    white-space: nowrap;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .nav-items {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-item {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/*
+ * ПРИМЕР 10: Адаптивный footer
+ */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+}
+
+/*
+ * ПРИМЕР 11: Безопасные области (Notch support)
+ */
+.header-safe {
+    padding: 1rem;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+/*
+ * ПРИМЕР 12: Оптимизация для ландшафтной ориентации
+ */
+@media (orientation: landscape) and (max-height: 500px) {
+    .large-header {
+        display: none;
+        /* Скрыть на маленьких ландшафтных экранах */
+    }
+
+    .content {
+        padding: 0.5rem;
+    }
+
+    .compact-mode {
+        display: block;
+    }
+}
+
+/*
+ * ПРИМЕР 13: Поддержка reduced motion
+ */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/*
+ * ПРИМЕР 14: Темная тема для мобилок
+ */
+@media (prefers-color-scheme: dark) {
+    body[data-theme="dark"] {
+        background: linear-gradient(135deg, #0d131f 0%, #151a30 100%);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body[data-theme="light"] {
+        background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+    }
+}
+
+/*
+ * ПРИМЕР 15: Адаптивные формы
+ */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color-light);
+    border-radius: 8px;
+    font-size: 16px;
+    /* Предотвращает zoom на iOS */
+    min-height: 44px;
+}
+
+@media (max-width: 480px) {
+    .form-control {
+        font-size: 16px;
+        padding: 0.75rem;
+        border-radius: 6px;
+    }
+}
+
+/*
+ * ПРИМЕР 16: Adaptивные кнопки
+ */
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    min-height: 44px;
+    min-width: 100px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .btn {
+        flex: 1;
+        min-width: auto;
+        padding: 0.65rem 1rem;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+/*
+ * ПРИМЕР 17: Скрытие элементов на маленьких экранах
+ */
+.hide-mobile {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none;
+    }
+}
+
+.hide-desktop {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hide-desktop {
+        display: block;
+    }
+}

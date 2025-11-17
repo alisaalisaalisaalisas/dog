@@ -20,6 +20,7 @@ DogDating is a modern web application built with Django that helps dog owners fi
 - **User Profiles** - Extended user information with avatars
 - **Search & Browse** - View all dogs with basic filtering
 - **Dashboard** - Central hub for user activities
+- **Guest Menu System** - Navigation for non-authenticated users ✨ **NEW**
 
 ### Additional Features
 
@@ -27,6 +28,7 @@ DogDating is a modern web application built with Django that helps dog owners fi
 - **Menu Management System** - Dynamic menu via menu_app
 - **Custom Error Pages** - 404 and 500 error handling
 - **Template Components** - Reusable template components
+- **Image Optimization** - Automatic image resizing and optimization for uploads
 - **Management Commands** - Data population and menu setup commands
 
 ### Technical Features
@@ -41,11 +43,30 @@ DogDating is a modern web application built with Django that helps dog owners fi
 
 ### UI/UX Features
 
-- **Responsive Design** - Mobile-friendly interface
+- **Responsive Design** - Mobile-first design with full mobile support ✨ **NEW**
+- **Mobile Optimized** - Tested on iPhone, Android, tablets ✨ **NEW**
 - **Russian Language** - Full Russian language interface
 - **Component-based Templates** - Reusable template components
 - **Clean Layout** - Simple, user-friendly design
 - **Navigation System** - Dynamic menu management
+- **Touch-Friendly** - Optimized for touch screens and gestures ✨ **NEW**
+- **Notch Support** - Works with iPhone X+ and Android notches ✨ **NEW**
+- **Dark/Light Theme** - Automatic theme switching based on OS preferences
+
+## 📱 Mobile Support
+
+This project is **fully optimized for mobile devices**! Features include:
+
+- ✅ Responsive grid system (320px - 1920px+)
+- ✅ Touch-friendly interface (48x48px minimum touch targets)
+- ✅ iPhone X+ notch support with safe area insets
+- ✅ Android device support (Samsung, Google Pixel, etc.)
+- ✅ Tablet support (iPad, Samsung Galaxy Tab)
+- ✅ Landscape/Portrait orientation handling
+- ✅ Fast performance on 4G/3G networks
+- ✅ Optimized images with lazy loading
+
+**See [MOBILE_OPTIMIZATION.md](./MOBILE_OPTIMIZATION.md) for detailed mobile features!**
 
 ## 📋 Table of Contents
 
@@ -114,6 +135,7 @@ DogDating is a modern web application built with Django that helps dog owners fi
    - Admin panel: <http://127.0.0.1:8000/admin>
 
 8. **Optional: Populate sample data**
+
    ```bash
    python manage.py populate_data
    ```
@@ -241,6 +263,7 @@ dog_dating_project/
 │           ├── error_404.html
 │           ├── error_500.html
 │           └── components/
+│               └── guest_menu.html
 │               └── messages.html
 ├── menu_app/                 # Menu management app
 │   ├── __init__.py
@@ -260,7 +283,8 @@ dog_dating_project/
 └── tests/                    # Test suite
     ├── test_db.py
     ├── test_models.py
-    └── test_views.py
+    ├── test_views.py
+    └── validate_guest_menu.py # Guest menu implementation test
 ```
 
 ## 🗃️ Database Models
@@ -374,6 +398,7 @@ The project includes tests for:
 - Database operations (`test_db.py`)
 - Model functionality (`test_models.py`)
 - View functionality (`test_views.py`)
+- Guest menu implementation (`validate_guest_menu.py`)
 
 ## 🚀 Deployment
 
@@ -448,9 +473,11 @@ AWS_S3_REGION_NAME = 'us-east-1'
 
 ## 📚 Documentation
 
-- This README.md - Project overview and setup guide
-- Inline code documentation - Docstrings in models, views, and utilities
-- Django Admin - Built-in admin interface for data management
+- **[README.md](README.md)** - Project overview and setup guide
+- **[MOBILE_OPTIMIZATION.md](MOBILE_OPTIMIZATION.md)** - Comprehensive mobile adaptation guide ✨ **NEW**
+- **[MOBILE_TESTING_GUIDE.md](MOBILE_TESTING_GUIDE.md)** - How to test mobile features ✨ **NEW**
+- **Inline code documentation** - Docstrings in models, views, and utilities
+- **Django Admin** - Built-in admin interface for data management
 
 ## 🤝 Contributing
 
@@ -517,12 +544,11 @@ A: Use the management command `python manage.py setup_menus`.
 ### Potential Future Enhancements
 
 - [ ] Advanced matching algorithms
-- [ ] Messaging system between users
-- [ ] Image upload and optimization
 - [ ] Location-based search
 - [ ] Mobile app development
 - [ ] Multi-language support beyond Russian
 - [ ] Social features and events
+- [ ] Advanced messaging system
 
 ---
 

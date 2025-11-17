@@ -40,13 +40,27 @@
         background-size: 1.5em 1.5em;
         padding-right: 2.5rem;
     }
+
+    .dog-form-row {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+        .dog-form-row {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 <div class="page-header">
     <h1 class="page-title">{{ title }}</h1>
     <p class="page-subtitle">{% if dog %}Обновите информацию о {{ dog.name }}{% else %}Создайте профиль для новой собаки{% endif %}</p>
 </div>
 
-<div class="row" style="display: grid; grid-template-columns: 1fr 400px; gap: 2rem; max-width: 1000px; margin: 0 auto;">
+<div class="row dog-form-row">
     <!-- Form -->
     <div>
         <div class="card">
