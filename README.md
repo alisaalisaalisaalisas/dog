@@ -492,7 +492,7 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 **FAQ**
 
 - **Q:** What language does the application use?
-  - **A:** Russian (`LANGUAGE_CODE='ru-ru'`).
+  - **A:** Russian (`LANGUAGE_CODE='Ru-ru'`).
 - **Q:** Can users have multiple dogs?
   - **A:** Yes, each user can create multiple dog profiles.
 - **Q:** Is the site mobile‑friendly?
@@ -502,4 +502,4 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 
 ---
 
-Made with ❤️ for dog lovers everywhere. Woof! 🐕
+Made with ❤️ for dog lovers everywhere. Woof!🐕
