@@ -1,6 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import (authenticate, login, logout,
-                                 update_session_auth_hash)
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
@@ -11,9 +10,15 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from services.favorites_service import toggle_favorite_for_user
 
-from .forms import (AccountDeletionForm, DogForm, DogSearchForm,
-                    PasswordChangeForm, UserLoginForm, UserProfileForm,
-                    UserRegistrationForm)
+from .forms import (
+    AccountDeletionForm,
+    DogForm,
+    DogSearchForm,
+    PasswordChangeForm,
+    UserLoginForm,
+    UserProfileForm,
+    UserRegistrationForm,
+)
 from .models import Dog, Favorite, Match, UserProfile
 
 

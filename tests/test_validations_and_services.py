@@ -13,8 +13,7 @@ if not settings.configured:
     django.setup()
 
 from django.contrib.auth.models import AnonymousUser, User  # noqa: E402
-from django.core.exceptions import (PermissionDenied,  # noqa: E402
-                                    ValidationError)
+from django.core.exceptions import PermissionDenied, ValidationError  # noqa: E402
 from django.core.files.uploadedfile import SimpleUploadedFile  # noqa: E402
 from django.test import TestCase  # noqa: E402
 from django.urls import reverse  # noqa: E402
