@@ -1,8 +1,8 @@
 # DogDating - Django Dog Dating Platform
 
 ![DogDating Logo](https://img.shields.io/badge/DogDating-🐕-blue?style=for-the-badge)
-![Django Version](https://img.shields.io/badge/Django-4.2+-green?style=flat-square)
-![Python Version](https://img.shields.io/badge/Python-3.8+-blue?style=flat-square)
+![Django Version](https://img.shields.io/badge/Django-5.0+-green?style=flat-square)
+![Python Version](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
 DogDating is a modern web application built with Django that helps dog owners find compatible companions for their pets. The platform features user profiles, a matching system, favorites, and a responsive design with Russian language support.
@@ -41,7 +41,7 @@ DogDating is a modern web application built with Django that helps dog owners fi
 
 ### Technical Features
 
-- **Django 4.2+** – modern Django framework
+- **Django 5.0+** – modern Django framework
 - **SQLite (dev) + Postgres (prod)**
   - SQLite is used by default for local development.
   - Postgres is used via `DATABASE_URL` (e.g. in Docker/docker‑compose).
@@ -101,7 +101,7 @@ See:
 
 ### Prerequisites
 
-- Python 3.8 or higher (3.11 recommended)
+- Python 3.10 or higher
 - `pip`
 - Virtual environment (recommended)
 - Optional: Docker & Docker Compose (for Postgres setup)
@@ -308,12 +308,21 @@ c:\...\dog_dating_project/
 │   ├── dog_service.py        # dog ownership & visibility checks
 │   ├── favorites_service.py  # favorites toggle logic + permissions
 │   └── match_service.py      # match creation/accept/decline logic
-└── tests/
-    ├── test_db.py
-    ├── test_models.py
-    ├── test_views.py
-    ├── test_validations_and_services.py
-    └── validate_guest_menu.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── factories.py
+│   ├── test_api/
+│   ├── test_db.py
+│   ├── test_errors/
+│   ├── test_forms/
+│   ├── test_integration/
+│   ├── test_models/
+│   ├── test_permissions/
+│   ├── test_validations_and_services.py
+│   ├── test_views/
+│   ├── utils.py
+│   └── validate_guest_menu.py
 ```
 
 ---
@@ -395,8 +404,8 @@ python manage.py test
 The suite includes:
 
 - `test_db.py` – basic DB operations across apps
-- `test_models.py` – model behavior (including `Dog.__str__`)
-- `test_views.py` – form validation and basic view behavior
+- `test_models/` – model behavior tests
+- `test_views/` – view tests
 - `test_validations_and_services.py` –
   - Dog validators (age, per‑owner uniqueness)
   - Dog image validation via `DogForm`
@@ -405,7 +414,7 @@ The suite includes:
   - Pagination behavior (favorites) using Django’s `Paginator`
 - `validate_guest_menu.py` – verifies guest menu integration in templates
 
-All tests are currently passing under Django 4.2 in the configured venv.
+All tests are currently passing under Django 5.0+ in the configured venv.
 
 ---
 
