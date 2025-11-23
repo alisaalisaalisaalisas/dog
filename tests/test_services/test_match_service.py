@@ -9,9 +9,11 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 
 from dogs.models import Dog, Match
-from services.match_service import (accept_match_for_user,
-                                    create_match_for_user,
-                                    decline_match_for_user)
+from services.match_service import (
+    accept_match_for_user,
+    create_match_for_user,
+    decline_match_for_user,
+)
 
 
 @pytest.mark.unit

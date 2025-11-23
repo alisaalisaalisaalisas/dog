@@ -11,16 +11,23 @@ from io import BytesIO
 import pytest
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
-from django.core.files.uploadedfile import (InMemoryUploadedFile,
-                                            SimpleUploadedFile)
+from django.core.files.uploadedfile import InMemoryUploadedFile, SimpleUploadedFile
 from PIL import Image
 
 from dogs.models import Dog, Match
-from dogs.utils import (accept_match, calculate_dog_compatibility_score,
-                        create_default_avatar, create_default_dog_image,
-                        create_match, decline_match, get_compatible_dogs,
-                        get_match_statistics, get_mutual_matches,
-                        get_pending_matches, optimize_image)
+from dogs.utils import (
+    accept_match,
+    calculate_dog_compatibility_score,
+    create_default_avatar,
+    create_default_dog_image,
+    create_match,
+    decline_match,
+    get_compatible_dogs,
+    get_match_statistics,
+    get_mutual_matches,
+    get_pending_matches,
+    optimize_image,
+)
 
 
 @pytest.mark.unit
