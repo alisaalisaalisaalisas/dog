@@ -210,7 +210,7 @@ class TestAcceptMatchForUser:
 
 
 @pytest.mark.unit
-@pytest.mark.services  
+@pytest.mark.services
 class TestDeclineMatchForUser:
     """Test suite for decline_match_for_user function."""
 

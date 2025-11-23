@@ -791,6 +791,7 @@ class TestImageUtilities:
 
     def test_optimize_image_handles_invalid(self):
         """Should return original image if optimization fails."""
+
         # Create a mock object without path attribute
         class MockImage:
             name = "test.jpg"
