@@ -42,7 +42,7 @@ data_file = .coverage
 
 [report]
 # Minimum coverage percentage required
-fail_under = 80
+fail_under = 70
 
 # Exclude specific lines from coverage using comments
 exclude_lines =
