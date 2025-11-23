@@ -4,9 +4,11 @@ AJAX Endpoint Tests
 Tests for AJAX endpoints like favorite toggle.
 """
 
-import pytest
 import json
+
+import pytest
 from django.urls import reverse
+
 from dogs.models import Favorite
 
 

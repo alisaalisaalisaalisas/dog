@@ -6,6 +6,7 @@ Comprehensive validation tests for dog-related forms.
 
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
+
 from dogs.forms import DogForm, DogSearchForm
 
 

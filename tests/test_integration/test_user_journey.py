@@ -5,8 +5,9 @@ End-to-end tests for complete user workflows.
 """
 
 import pytest
-from django.urls import reverse
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 from dogs.models import Dog, Favorite, Match
 
 

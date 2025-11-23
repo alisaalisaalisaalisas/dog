@@ -1,9 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 
 ALLOWED_DOG_IMAGE_MIME_TYPES = {"image/jpeg", "image/png", "image/webp"}
 MAX_DOG_IMAGE_SIZE_MB = 5

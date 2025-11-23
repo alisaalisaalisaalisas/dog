@@ -12,14 +12,15 @@ Usage:
     dogs = DogFactory.create_batch(10)
 """
 
-import factory
-from factory.django import DjangoModelFactory
-from factory import fuzzy
-from django.contrib.auth.models import User
-from dogs.models import Dog, UserProfile, Match, Favorite, Message
-from menu_app.models import Menu, MenuItem
 import random
 
+import factory
+from django.contrib.auth.models import User
+from factory import fuzzy
+from factory.django import DjangoModelFactory
+
+from dogs.models import Dog, Favorite, Match, Message, UserProfile
+from menu_app.models import Menu, MenuItem
 
 # ============================================================================
 # User Factories

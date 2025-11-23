@@ -6,6 +6,7 @@ Tests for the menu_app models.
 
 import pytest
 from django.test import TestCase
+
 from menu_app.models import Menu, MenuItem
 
 

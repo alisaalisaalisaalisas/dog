@@ -1,5 +1,6 @@
 import os
 import sys
+
 import django
 from django.conf import settings
 
@@ -12,10 +13,11 @@ if __name__ == "__main__" or not settings.configured:
 if not settings.configured:
     django.setup()
 
-from django.test import TestCase
-from menu_app.models import Menu, MenuItem
-from dogs.models import Dog, UserProfile
 from django.contrib.auth.models import User
+from django.test import TestCase
+
+from dogs.models import Dog, UserProfile
+from menu_app.models import Menu, MenuItem
 
 
 class DatabaseOperationsTest(TestCase):

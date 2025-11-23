@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Dog, UserProfile, Match, Message, Favorite
+
+from .models import Dog, Favorite, Match, Message, UserProfile
 
 
 @admin.register(Dog)

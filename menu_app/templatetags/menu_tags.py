@@ -1,5 +1,6 @@
 from django import template
 from django.template.loader import get_template
+
 from menu_app.models import Menu, MenuItem
 
 register = template.Library()

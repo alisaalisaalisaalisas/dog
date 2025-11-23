@@ -1,5 +1,6 @@
 import os
 import sys
+
 import django
 from django.conf import settings
 
@@ -11,14 +12,15 @@ if __name__ == "__main__" or not settings.configured:
 if not settings.configured:
     django.setup()
 
-from django.test import TestCase  # noqa: E402
-from django.core.exceptions import ValidationError, PermissionDenied  # noqa: E402
+from django.contrib.auth.models import AnonymousUser, User  # noqa: E402
+from django.core.exceptions import (PermissionDenied,  # noqa: E402
+                                    ValidationError)
 from django.core.files.uploadedfile import SimpleUploadedFile  # noqa: E402
-from django.contrib.auth.models import User, AnonymousUser  # noqa: E402
+from django.test import TestCase  # noqa: E402
 from django.urls import reverse  # noqa: E402
 
-from dogs.models import Dog, Favorite, Match  # noqa: E402
 from dogs.forms import DogForm  # noqa: E402
+from dogs.models import Dog, Favorite, Match  # noqa: E402
 from services.dog_service import get_dog_for_owner  # noqa: E402
 from services.favorites_service import toggle_favorite_for_user  # noqa: E402
 from services.match_service import create_match_for_user  # noqa: E402

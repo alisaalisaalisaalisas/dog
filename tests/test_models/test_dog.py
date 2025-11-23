@@ -13,6 +13,7 @@ Tests all aspects of the Dog model including:
 import pytest
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+
 from dogs.models import Dog, Favorite, Match
 
 

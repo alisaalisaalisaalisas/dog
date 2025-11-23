@@ -2,7 +2,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
 from dogs.models import Dog, Match
-from dogs.utils import create_match, accept_match, decline_match
+from dogs.utils import accept_match, create_match, decline_match
 
 
 def create_match_for_user(user, dog_from_id: int, dog_to_id: int) -> Match:

@@ -44,6 +44,7 @@ class Test500ErrorHandler:
     def test_500_handler_exists(self):
         """Test 500 error handler is configured."""
         from django.conf import settings
+
         from project import urls
 
         # Check if handler500 is defined in URLconf or settings

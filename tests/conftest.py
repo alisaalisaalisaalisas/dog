@@ -7,6 +7,7 @@ It follows pytest best practices for fixture design and scoping.
 
 import os
 import sys
+
 import django
 from django.conf import settings
 
@@ -16,11 +17,11 @@ if not settings.configured:
     django.setup()
 
 import pytest
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import AnonymousUser, User
 from django.test import Client
-from dogs.models import Dog, UserProfile, Match, Favorite, Message
-from menu_app.models import Menu, MenuItem
 
+from dogs.models import Dog, Favorite, Match, Message, UserProfile
+from menu_app.models import Menu, MenuItem
 
 # ============================================================================
 # User Fixtures

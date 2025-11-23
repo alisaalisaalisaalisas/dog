@@ -6,6 +6,7 @@ Tests for dog ownership and access control.
 
 import pytest
 from django.core.exceptions import PermissionDenied
+
 from services.dog_service import get_dog_for_owner
 from services.favorites_service import toggle_favorite_for_user
 from services.match_service import create_match_for_user

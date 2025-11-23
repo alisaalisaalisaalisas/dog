@@ -1,5 +1,6 @@
 # menu_app/management/commands/setup_menus.py
 from django.core.management.base import BaseCommand
+
 from menu_app.models import Menu, MenuItem
 
 

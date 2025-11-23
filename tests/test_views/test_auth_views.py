@@ -5,8 +5,8 @@ Tests for user registration, login, logout, and password management views.
 """
 
 import pytest
-from django.urls import reverse
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 @pytest.mark.views

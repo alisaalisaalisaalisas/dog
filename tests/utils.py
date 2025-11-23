@@ -4,11 +4,12 @@ Test Utilities and Helper Functions
 Common utilities for test setup, assertions, and data generation.
 """
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
 from django.contrib.auth.models import User
-from dogs.models import Dog, Match, Favorite
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+from dogs.models import Dog, Favorite, Match
 
 # ============================================================================
 # Test Data Generators
@@ -293,6 +294,7 @@ def cleanup_media_files():
     """Clean up media files created during tests."""
     import os
     import shutil
+
     from django.conf import settings
 
     media_root = settings.MEDIA_ROOT
@@ -350,8 +352,9 @@ def get_url_with_query(url_name, query_params=None, **kwargs):
     Returns:
         URL string with query parameters
     """
-    from django.urls import reverse
     from urllib.parse import urlencode
+
+    from django.urls import reverse
 
     url = reverse(url_name, kwargs=kwargs)
     if query_params:
@@ -376,8 +379,8 @@ def create_mock_request(user=None, method="GET", data=None):
     Returns:
         Mock request object
     """
-    from django.test import RequestFactory
     from django.contrib.auth.models import AnonymousUser
+    from django.test import RequestFactory
 
     factory = RequestFactory()
     request = getattr(factory, method.lower())("/", data=data or {})

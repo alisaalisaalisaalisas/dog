@@ -2,11 +2,13 @@
 Django management command to populate the database with example data.
 """
 
-from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
-from dogs.models import Dog, UserProfile, Match, Favorite, Message
-from django.utils import timezone
 import random
+
+from django.contrib.auth.models import User
+from django.core.management.base import BaseCommand
+from django.utils import timezone
+
+from dogs.models import Dog, Favorite, Match, Message, UserProfile
 
 
 class Command(BaseCommand):

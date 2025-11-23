@@ -1,11 +1,13 @@
-from django.db.models import Q, Count
-from .models import Dog, Match, Favorite
-from PIL import Image
 import os
+import uuid
+from io import BytesIO
+
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from io import BytesIO
-import uuid
+from django.db.models import Count, Q
+from PIL import Image
+
+from .models import Dog, Favorite, Match
 
 
 def calculate_dog_compatibility_score(dog1, dog2):

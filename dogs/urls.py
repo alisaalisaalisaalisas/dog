@@ -1,7 +1,7 @@
-from django.urls import path
 from django.contrib.auth.views import LogoutView
-from . import views
-from . import views_new
+from django.urls import path
+
+from . import views, views_new
 
 app_name = "dogs"
 

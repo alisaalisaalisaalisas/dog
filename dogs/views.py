@@ -1,23 +1,20 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import (authenticate, login, logout,
+                                 update_session_auth_hash)
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Q, Count
-from django.core.paginator import Paginator
-from django.http import JsonResponse, HttpResponseForbidden
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
+from django.db.models import Count, Q
+from django.http import HttpResponseForbidden, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+
 from services.favorites_service import toggle_favorite_for_user
-from .models import Dog, UserProfile, Match, Favorite
-from .forms import (
-    UserRegistrationForm,
-    UserLoginForm,
-    DogForm,
-    UserProfileForm,
-    PasswordChangeForm,
-    AccountDeletionForm,
-    DogSearchForm,
-)
+
+from .forms import (AccountDeletionForm, DogForm, DogSearchForm,
+                    PasswordChangeForm, UserLoginForm, UserProfileForm,
+                    UserRegistrationForm)
+from .models import Dog, Favorite, Match, UserProfile
 
 
 def landing_page(request):
