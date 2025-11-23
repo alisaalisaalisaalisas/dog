@@ -7,7 +7,7 @@
 
 DogDating is a modern web application built with Django that helps dog owners find compatible companions for their pets. The platform features user profiles, a matching system, favorites, and a responsive design with Russian language support.
 
-## 🖼️ Screenshots
+## 🖼️ Screenshot
 
 <img width="2539" height="1245" alt="image" src="https://github.com/user-attachments/assets/b3c7b64b-8ba9-4d0e-8145-a129abd5523a" />
 <img width="2541" height="1274" alt="image" src="https://github.com/user-attachments/assets/a69504af-f6ff-431c-a3b7-d7904b506213" />
